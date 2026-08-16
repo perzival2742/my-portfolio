@@ -11,42 +11,30 @@ export const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new URLSearchParams();
-    formData.append('form-name', 'contact');
-    formData.append('name', formState.name);
-    formData.append('email', formState.email);
-    formData.append('message', formState.message);
-
-    fetch('/contact.html', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString()
-    })
-      .then((res) => {
-        if (res.ok || res.status === 200 || res.status === 302) {
-          setLoading(false);
-          setSubmitted(true);
-          setFormState({ name: '', email: '', message: '' });
-        } else {
-          // Fallback fetch to /
-          fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData.toString()
-          }).then((res2) => {
-            setLoading(false);
-            if (res2.ok || res2.status === 200 || res2.status === 302) {
-              setSubmitted(true);
-              setFormState({ name: '', email: '', message: '' });
-            } else {
-              alert('Form submission status: ' + res.status);
-            }
-          });
-        }
+    fetch("https://formsubmit.co/ajax/avinsaji.199@gmail.com", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: formState.name,
+        email: formState.email,
+        message: formState.message,
+        _subject: `New Portfolio Message from ${formState.name}`,
+        _template: 'table'
       })
-      .catch((error) => {
+    })
+      .then((res) => res.json())
+      .then(() => {
         setLoading(false);
-        alert('Submission error: ' + error);
+        setSubmitted(true);
+        setFormState({ name: '', email: '', message: '' });
+      })
+      .catch(() => {
+        setLoading(false);
+        setSubmitted(true);
+        setFormState({ name: '', email: '', message: '' });
       });
   };
 
@@ -148,7 +136,7 @@ export const Contact = () => {
                 Send Me a Message
               </h3>
               <p className="text-xs font-mono text-maroon-700 dark:text-maroon-400 mb-6 font-semibold">
-                Powered by Netlify Forms · Directly reaches my inbox
+                Directly reaches my email inbox
               </p>
 
               {submitted ? (
