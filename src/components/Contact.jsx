@@ -17,24 +17,25 @@ export const Contact = () => {
     formData.append('email', formState.email);
     formData.append('message', formState.message);
 
-    fetch('/', {
+    fetch('/contact.html', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
     })
       .then((res) => {
-        setLoading(false);
-        if (res.ok) {
+        if (res.ok || res.status === 200 || res.status === 302) {
+          setLoading(false);
           setSubmitted(true);
           setFormState({ name: '', email: '', message: '' });
         } else {
-          // Fallback fetch to /index.html if / yields 404 on initial Netlify sync
-          fetch('/index.html', {
+          // Fallback fetch to /
+          fetch('/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: formData.toString()
           }).then((res2) => {
-            if (res2.ok) {
+            setLoading(false);
+            if (res2.ok || res2.status === 200 || res2.status === 302) {
               setSubmitted(true);
               setFormState({ name: '', email: '', message: '' });
             } else {
