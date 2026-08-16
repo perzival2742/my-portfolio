@@ -7,25 +7,41 @@ export const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const encode = (data) => {
-    return Object.keys(data)
-      .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-      .join('&');
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
+    const formData = new URLSearchParams();
+    formData.append('form-name', 'contact');
+    formData.append('name', formState.name);
+    formData.append('email', formState.email);
+    formData.append('message', formState.message);
+
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({ 'form-name': 'contact', ...formState })
+      body: formData.toString()
     })
-      .then(() => {
+      .then((res) => {
         setLoading(false);
-        setSubmitted(true);
-        setFormState({ name: '', email: '', message: '' });
+        if (res.ok) {
+          setSubmitted(true);
+          setFormState({ name: '', email: '', message: '' });
+        } else {
+          // Fallback fetch to /index.html if / yields 404 on initial Netlify sync
+          fetch('/index.html', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+          }).then((res2) => {
+            if (res2.ok) {
+              setSubmitted(true);
+              setFormState({ name: '', email: '', message: '' });
+            } else {
+              alert('Form submission status: ' + res.status);
+            }
+          });
+        }
       })
       .catch((error) => {
         setLoading(false);
