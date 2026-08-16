@@ -10,7 +10,6 @@ export const profileData = {
   tagline: "I take full end-to-end ownership of products — from initial discovery and database design to writing clean reactive Vert.x code and scaling on AWS.",
   location: "Bengaluru, India",
   email: "avinsaji.199@gmail.com",
-  phone: "+91 6238549453",
   avatar: "/avatar.jpg",
   linkedin: "https://linkedin.com/in/avinsaji",
   github: "https://github.com/perzival2742",

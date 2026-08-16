@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { profileData } from '../data/portfolioData';
-import { Mail, Phone, MapPin, Linkedin, Github, Send, CheckCircle2, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, Linkedin, Github, Send, CheckCircle2, MessageSquare } from 'lucide-react';
 
 export const Contact = () => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
@@ -75,22 +75,6 @@ export const Contact = () => {
                     <span className="block text-xs font-mono text-slate-400">Email Address</span>
                     <span className="font-medium text-slate-900 dark:text-slate-100 group-hover:text-maroon-500 transition-colors">
                       {profileData.email}
-                    </span>
-                  </div>
-                </a>
-
-                {/* Phone */}
-                <a
-                  href={`tel:${profileData.phone}`}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass-card hover:border-maroon-500/40 group transition-all"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="block text-xs font-mono text-slate-400">Phone Number</span>
-                    <span className="font-medium text-slate-900 dark:text-slate-100 group-hover:text-maroon-500 transition-colors">
-                      {profileData.phone}
                     </span>
                   </div>
                 </a>
